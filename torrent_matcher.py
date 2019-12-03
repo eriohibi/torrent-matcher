@@ -28,6 +28,8 @@ for d in directories:
                 'location': dir_name
             })
 
+        print(f'{len(files)} files found', end='\r')
+
 print(f'Done ({len(files)} files recorded)')
 
 # Get from program arguments the directory of torrent files to check
