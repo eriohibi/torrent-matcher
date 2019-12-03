@@ -40,7 +40,8 @@ torrent_files = []
 
 for dir_name, subdir_list, file_list in os.walk(torrent_dir):
     for f in file_list:
-        torrent_files.append(dir_name + '/' + f)
+        if f[-8:] == '.torrent':
+            torrent_files.append(dir_name + '/' + f)
 
 print(f'{len(torrent_files)} torrent files discovered\n')
 
