@@ -28,7 +28,7 @@ for d in directories:
                 'location': dir_name
             })
 
-print('Done')
+print(f'Done ({len(files)} files recorded)')
 
 # Get from program arguments the directory of torrent files to check
 if len(sys.argv) < 2:
