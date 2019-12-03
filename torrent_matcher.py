@@ -74,6 +74,10 @@ for t in torrent_files:
             continue
 
     total = len(t_file_list)  # Total number of files that the torrent lists
+    if total > 100:
+        # Ignore torrents with a large amount of files
+        # TODO: Fix this
+        continue
 
     # Go through each file that the torrent lists and see if it exists in our
     #     already built local file list
