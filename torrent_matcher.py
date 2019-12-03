@@ -3,6 +3,7 @@
 
 import operator
 import os
+import pickle
 import sys
 import torrent_parser as tp
 
@@ -12,25 +13,33 @@ from colorama import Fore, Style
 DEBUG = False
 colorama.init()
 
-# Load from file a list of directories to check for files
-directories = open('directories.txt', 'r').readlines()
-directories = [s.strip() for s in directories]
+if '-u' in sys.argv:
+    # Load from file a list of directories to check for files
+    directories = open('directories.txt', 'r').readlines()
+    directories = [s.strip() for s in directories]
 
-# Traverse the given directories and record found files
-print('Generating file listing...')
-files = []
+    # Traverse the given directories and record found files
+    print('Generating file listing...')
+    files = []
 
-for d in directories:
-    for dir_name, subdir_list, file_list in os.walk(d):
-        for f in file_list:
-            files.append({
-                'filename': f,
-                'location': dir_name
-            })
+    for d in directories:
+        for dir_name, subdir_list, file_list in os.walk(d):
+            for f in file_list:
+                files.append({
+                    'filename': f,
+                    'location': dir_name
+                })
 
-        print(f'{len(files)} files found', end='\r')
+            print(f'{len(files)} files found', end='\r')
 
-print(f'Done ({len(files)} files recorded)')
+    print(f'Done ({len(files)} files recorded)')
+
+    # Save file listing to file
+    pickle.dump(files, open('file_listing.pickle', 'wb'))
+
+else:
+    files = pickle.load(open('file_listing.pickle', 'rb'))
+    print(f'Loaded existing file listing ({len(files)} files)')
 
 # Get from program arguments the directory of torrent files to check
 if len(sys.argv) < 2:
